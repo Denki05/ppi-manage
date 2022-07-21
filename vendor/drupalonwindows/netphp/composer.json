@@ -1,0 +1,23 @@
+{
+    "name": "drupalonwindows/netphp",
+    "version": "2.3",
+    "type": "library",
+    "description": "",
+    "keywords": [ ".Net", "PHP", ".Net Framework", "Microsoft", "dotnet" ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "David",
+            "email": "deivid.garcia.garcia@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit" :  "5.0.*"
+    },
+    "autoload": {
+        "psr-4": { "NetPhp\\": "src/" }
+    }
+}

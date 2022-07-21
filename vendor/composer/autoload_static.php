@@ -6,64 +6,33 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit59ab7a299986c4ee3880553abb5ea40c
 {
-    public static $files = array (
-        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
-        '0b17741e1be8bc33be28693cd04d2893' => __DIR__ . '/..' . '/koolreport/core/autoload.php',
-    );
-
     public static $prefixLengthsPsr4 = array (
-        's' => 
+        'w' => 
         array (
-            'setasign\\Fpdi\\' => 14,
+            'wd\\' => 3,
         ),
-        'P' => 
+        'N' => 
         array (
-            'Psr\\Log\\' => 8,
-            'Psr\\Http\\Message\\' => 17,
-            'PHPJasper\\' => 10,
+            'NetPhp\\' => 7,
         ),
         'M' => 
         array (
-            'Mpdf\\' => 5,
-        ),
-        'H' => 
-        array (
-            'Http\\Message\\' => 13,
-        ),
-        'D' => 
-        array (
-            'DeepCopy\\' => 9,
+            'MyProject\\' => 10,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'setasign\\Fpdi\\' => 
+        'wd\\' => 
         array (
-            0 => __DIR__ . '/..' . '/setasign/fpdi/src',
+            0 => __DIR__ . '/../..' . '/wd',
         ),
-        'Psr\\Log\\' => 
+        'NetPhp\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+            0 => __DIR__ . '/..' . '/drupalonwindows/netphp/src',
         ),
-        'Psr\\Http\\Message\\' => 
+        'MyProject\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-        ),
-        'PHPJasper\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/geekcom/phpjasper/src',
-        ),
-        'Mpdf\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/mpdf/mpdf/src',
-        ),
-        'Http\\Message\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/php-http/message-factory/src',
-        ),
-        'DeepCopy\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy',
+            0 => __DIR__ . '/../..' . '/src',
         ),
     );
 

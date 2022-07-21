@@ -1,5 +1,4 @@
 <?php
-   try{
        $word = @new COM("Word.Application") or die ("Could not initialise Object.");
        // set it to 1 to see the MS Word window (the actual opening of the document)
        $word->Visible = 0;
@@ -15,7 +14,4 @@
        $word->Quit(true);
        // clean up
        unset($word);
-   }catch(Exception $e){
-       echo $e;
-   }
 ?>
