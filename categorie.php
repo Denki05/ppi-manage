@@ -35,24 +35,6 @@
      </div>
   </div>
    <div class="row">
-    <div class="col-md-5">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <strong>
-            <span class="glyphicon glyphicon-th"></span>
-            <span>Add New Categorie</span>
-         </strong>
-        </div>
-        <div class="panel-body">
-          <form method="post" action="categorie.php">
-            <div class="form-group">
-                <input type="text" class="form-control" name="categorie-name" placeholder="Categorie Name">
-            </div>
-            <button type="submit" name="add_cat" class="btn btn-primary">Add categorie</button>
-        </form>
-        </div>
-      </div>
-    </div>
     <div class="col-md-7">
     <div class="panel panel-default">
       <div class="panel-heading">
@@ -62,7 +44,7 @@
        </strong>
       </div>
         <div class="panel-body">
-          <table class="table table-bordered table-striped table-hover">
+          <table id="datatable" class="table table-bordered table-striped table-hover">
             <thead>
                 <tr>
                     <th class="text-center" style="width: 50px;">#</th>
@@ -93,6 +75,14 @@
        </div>
     </div>
     </div>
+    <div class="col-md-7">
+    </div>
    </div>
   </div>
   <?php include_once('layouts/footer.php'); ?>
+
+  <script>
+    $(document).ready( function () {
+    $('#datatable').DataTable();
+    });
+  </script>
