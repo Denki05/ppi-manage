@@ -12,7 +12,7 @@ $my_password = "Denki@05121996";
 $my_database = "ppi"; 
 
 $ObjectFactory= new COM("CrystalReports13.ObjectFactory.1") or die ("Error on load"); // call COM port 
-$crapp = $ObjectFactory-> CreateObject("CrystalDesignRuntime.Application."); // create an instance for Crystal 
+$crapp = $ObjectFactory->CreateObject("CrystalReports13.ObjectFactory.1"); // create an instance for Crystal 
 $creport = $crapp->OpenReport($my_report, 1); // call rpt report 
  
 //- Set database logon info - must have 
@@ -38,4 +38,5 @@ $ObjectFactory = null;
 
 //------ Embed the report in the webpage ------
 print "<embed src=\"C:\\xampp\\htdocs\\ppi-manage\\report\\product_list.pdf\" width=\"100%\" height=\"100%\">"
+
 ?>

@@ -14,4 +14,5 @@
        $word->Quit(true);
        // clean up
        unset($word);
+
 ?>
