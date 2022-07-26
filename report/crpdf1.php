@@ -24,7 +24,7 @@ $creport->Database->Tables(1)->SetLogOnInfo($my_server, $my_database, $my_user, 
 //- field prompt or else report will hang - to get through 
 $creport->EnableParameterPrompting = 0;
 //------ DiscardSavedData make a Refresh in your data -------
-$creport->DiscardSavedData();
+$creport->DiscardSavedData;
 $creport->ReadRecords();
 
    
