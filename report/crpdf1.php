@@ -41,19 +41,5 @@ $crapp = null;
 $ObjectFactory = null;
 
 //------ Embed the report in the webpage ------
-// print "<embed src=\'C:\\xampp\\htdocs\\ppi-manage\\report\\product_list.pdf\' width=\'100%\' height=\'100%\'></embed>"
-$file = 'C:\xampp\htdocs\ppi-manage\report\export\product_list.pdf';
-$filename = 'product_list.pdf'; /* Note: Always use .pdf at the end. */
-
-header('Content-type: application/pdf');
-header('Content-Disposition: inline; filename="' . $filename . '"');
-header('Content-Transfer-Encoding: binary');
-header('Content-Length: ' . filesize($file));
-header('Accept-Ranges: bytes');
-
-@readfile($file);
+// print "<embed src=\"C:\\xampp\\htdocs\\ppi-manage\\report\\export\\product_list.pdf\" width=\"100%\" height=\"100%\">"
 ?>
-
-<script type="text/javascript">
-    location = 'product.php'
-</script>
