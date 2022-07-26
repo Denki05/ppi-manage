@@ -42,4 +42,15 @@ $ObjectFactory = null;
 
 //------ Embed the report in the webpage ------
 // print "<embed src=\"C:\\xampp\\htdocs\\ppi-manage\\report\\export\\product_list.pdf\" width=\"100%\" height=\"100%\">"
+
+
+$file = "C:\\xampp\\htdocs\\ppi-manage\\report\\export\\product_list.pdf"; 
+
+header("Content-Description: File Transfer"); 
+header("Content-Type: application/octet-stream"); 
+header("Content-Disposition: attachment; filename=\"". basename($file) ."\""); 
+
+readfile ($file);
+exit(); 
+
 ?>
