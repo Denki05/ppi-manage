@@ -10,21 +10,21 @@ $my_server = "SERVER";
 $my_user = "ppi_report"; 
 $my_password = "Denki@05121996"; 
 $my_database = "ppi";
-$COM_Object = "CrystalDesignRunTime.Application";
+// $COM_Object = "CrystalDesignRunTime.Application";
 
-$crapp= New COM($COM_Object) or die("Unable to Create Object");
-$creport = $crapp->OpenReport($my_report, 1);
+// $crapp= New COM($COM_Object) or die("Unable to Create Object");
+// $creport = $crapp->OpenReport($my_report, 1);
 
-// $ObjectFactory= new COM("CrystalReports14.ObjectFactory.1") or die ("Error on load"); // call COM port 
-// $crapp = $ObjectFactory->CreateObject("CrystalDesignRunTime.Application"); // create an instance for Crystal 
-// $creport = $crapp->OpenReport($my_report, 1); // call rpt report 
+$ObjectFactory= new COM("CrystalReports14.ObjectFactory.1") or die ("Error on load"); // call COM port 
+$crapp = $ObjectFactory->CreateObject("CrystalDesignRunTime.Application"); // create an instance for Crystal 
+$creport = $crapp->OpenReport($my_report, 1); // call rpt report 
  
 //- Set database logon info - must have 
 $creport->Database->Tables(1)->SetLogOnInfo($my_server, $my_database, $my_user, $my_password);
 //- field prompt or else report will hang - to get through 
 $creport->EnableParameterPrompting = 0;
 //------ DiscardSavedData make a Refresh in your data -------
-$creport->DiscardSavedData();
+$creport->DiscardSavedData;
 $creport->ReadRecords();
 
    
