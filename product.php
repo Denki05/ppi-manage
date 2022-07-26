@@ -15,7 +15,7 @@
       <div class="panel panel-default"> 
         <div class="panel-heading clearfix">
          <div class="pull-right">
-           <a href="report/crpdf1.php" class="btn btn-primary">Export Product List</a>
+           <a id="exportProduct" href="report/crpdf1.php" class="btn btn-primary">Export Product List PDF</a>
          </div>
         </div>
         <div class="panel-body">
@@ -53,6 +53,6 @@
 
   <script>
   $(document).ready( function () {
-    $('#product').DataTable();
+    $('#product').DataTable()
   });
   </script>

@@ -280,13 +280,21 @@ function tableExists($table){
  /*--------------------------------------------------------------*/
  function find_all_sale(){
    global $db;
-   $sql  = "SELECT ss.invoice_code, ss.invoice_date, c.customer_store_name, e.employee_name, p.product_name, p.product_code, s.invoice_item_qty, ss.invoice_grand_total, ss.created_on";
-  $sql .= " FROM tbl_sales_invoice_item s";
-  $sql .= " LEFT JOIN tbl_sales_invoice ss ON ss.id = s.invoice_id";
-  $sql .= " LEFT JOIN tbl_customer c ON c.id = ss.customer_id";
-  $sql .= " LEFT JOIN tbl_employee e ON e.id = ss.salesman_id";
-  $sql .= " LEFT JOIN tbl_product p ON s.product_id = p.id";
-  $sql .= " GROUP BY ss.invoice_date DESC ";
+   $sql  = "SELECT ss.invoice_code, 
+                  ss.invoice_date, 
+                  c.customer_store_name, 
+                  e.employee_name, 
+                  p.product_name, 
+                  p.product_code, 
+                  s.invoice_item_qty AS quantity, 
+                  (ss.invoice_subtotal - ss.invoice_disc_amount - ss.invoice_disc_amount2) AS grand_total, 
+                  ss.created_on
+    FROM tbl_sales_invoice_item s
+    LEFT JOIN tbl_sales_invoice ss ON ss.id = s.invoice_id
+    LEFT JOIN tbl_customer c ON c.id = ss.customer_id
+    LEFT JOIN tbl_employee e ON e.id = ss.salesman_id
+    LEFT JOIN tbl_product p ON s.product_id = p.id
+    GROUP BY ss.invoice_date ASC";
    return find_by_sql($sql);
  }
  /*--------------------------------------------------------------*/

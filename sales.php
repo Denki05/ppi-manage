@@ -46,8 +46,8 @@ $sales = find_all_sale();
                 <td><?php echo remove_junk($sale['customer_store_name']); ?></td>
                 <td><?php echo remove_junk($sale['employee_name']); ?></td>
                 <td><?php echo remove_junk($sale['product_code']); ?> | <?php echo remove_junk($sale['product_name']); ?></td>
-                <td><?php echo $sale['invoice_item_qty']; ?></td>
-                <td>Rp <?php echo price_format($sale['invoice_grand_total']); ?></td>
+                <td><?php echo $sale['quantity']; ?></td>
+                <td>Rp <?php echo price_format($sale['grand_total']); ?></td>
              </tr>
              <?php endforeach;?>
            </tbody>
