@@ -33,11 +33,11 @@ $results = '';
       <div class="panel panel-default"> 
         <div class="panel-heading clearfix">
          <div>
-           <a id="exportProduct" href="#" class="btn btn-primary">Export Sales Report</a>
+           <a id="exportProduct" href="report/sales_report.php" class="btn btn-primary">CR Export Type</a>
          </div>
         </div>
         <div class="panel-body">
-          <table id="sales_report" class="table table-responsive-sm">
+          <table id="sales_report" class="display" style="width:100%">
             <thead>
               <tr>
                 <th>Invoice</th>
@@ -72,7 +72,13 @@ $results = '';
   <?php include("layouts/footer.php"); ?>
 
   <script>
-  $(document).ready( function () {
-    $('#sales_report').DataTable()
-  });
+    $(document).ready(function() {
+      $('#sales_report').DataTable( {
+          dom: 'Bfrtip',
+          buttons: [
+              'excelHtml5',
+              'pdfHtml5'
+          ]
+      } );
+    });
   </script>
