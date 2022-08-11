@@ -40,27 +40,49 @@ $results = '';
           <table id="sales_report" class="display" style="width:100%">
             <thead>
               <tr>
+                <th>Tanggal</th>
                 <th>Invoice</th>
-                <th>Date</th>
                 <th>Customer</th>
-                <th>Salesman</th>
+                <th>Kota</th>
+                <th>Product Code</th>
+                <th>Product Name</th>
                 <th>Quantity</th>
-                <th>Shipping Cost</th>
-                <th>Sub Total</th>
-                <th>Grand Total</th>
+                <th>Packing</th>
+                <th>Harga @</th>
+                <th>Disc Qty</th>
+                <th>Disc Agen</th>
+                <th>Netto</th>
+                <th>Jumlah</th>
+                <th>Cashback</th>
+                <th>Jumlah</th>
+                <th>PPN 11%</th>
+                <th>Jumlah</th>
+                <th>Kurs</th>
+                <th>Salesman</th>
               </tr>
             </thead>
             <tbody>
               <?php foreach ($results as $result):?>
               <tr>
-                <td><?php echo remove_junk(ucfirst($result['invoice']));?> </td>
                 <td><?php echo format_date($result['invoiceDate']);?> </td>
+                <td><?php echo remove_junk(ucfirst($result['invoice']));?> </td>
                 <td><?php echo remove_junk(ucfirst($result['customer']));?> </td>
                 <td><?php echo remove_junk(ucfirst($result['salesman']));?> </td>
                 <td><?php echo remove_junk($result['quantityTotal']);?></td>
                 <td><?php echo number_format($result['invoiceShipCost']);?></td>
                 <td><?php echo number_format($result['invoiceSubTotal'] - $result['invoiceDiscount'] - $result['invoiceDiscount2']);?></td>
                 <td><?php echo number_format($result['invoice_grand_total']);?></td>
+                <td><?php echo number_format($result['invoice_grand_total']);?></td>
+                <td><?php echo number_format($result['invoice_grand_total']);?></td>
+                <td><?php echo number_format($result['invoice_grand_total']);?></td>
+                <td><?php echo number_format($result['invoice_grand_total']);?></td>
+                <td><?php echo number_format($result['invoice_grand_total']);?></td>
+                <td><?php echo number_format($result['invoice_grand_total']);?></td>
+                <td><?php echo number_format($result['invoice_grand_total']);?></td>
+                <td><?php echo number_format($result['invoice_grand_total']);?></td>
+                <td><?php echo number_format($result['invoice_grand_total']);?></td>
+                <td><?php echo number_format($result['invoice_grand_total']);?></td>
+                <td><?php echo remove_junk(ucfirst($result['salesman']));?> </td>
               </tr>
              <?php endforeach; ?>
             </tbody>
@@ -75,6 +97,10 @@ $results = '';
     $(document).ready(function() {
       $('#sales_report').DataTable( {
           dom: 'Bfrtip',
+          scrollY:  "300px",
+          scrollX:  true,
+          scrollCollapse: true,
+          
           buttons: [
               'excelHtml5',
               'pdfHtml5'
