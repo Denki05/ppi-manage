@@ -2,7 +2,7 @@
 
 //- Variables - for your RPT and PDF
 echo "Export rpt Crystal Report ON pdf";
-$my_report = "C:\\xampp\\htdocs\\ppi-manage\\report\\product_list.rpt"; 
+$my_report = "C:\\xampp\\htdocs\\ppi-manage\\report\\product_list2.rpt"; 
 $my_pdf = "C:\\xampp\\htdocs\\ppi-manage\\report\\export\\product_list.pdf"; 
 
 //- Variables - Server Information 
