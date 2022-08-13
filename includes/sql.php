@@ -328,21 +328,29 @@ function find_sale_by_dates($start_date,$end_date){
       e.employee_name AS salesman, 
       s.invoice_grand_total, 
       s.invoice_date AS invoiceDate, 
-      SUM(ss.invoice_item_qty) AS quantityTotal, 
+      ss.invoice_item_qty AS quantityTotal, 
       s.invoice_date AS invoiceDate, 
       s.invoice_subtotal AS invoiceSubTotal, 
       s.invoice_disc_amount AS invoiceDiscount,
       s.invoice_disc_amount2 AS invoiceDiscount2,
-      s.invoice_shipping_cost AS invoiceShipCost
+      p.product_name AS productName,
+      p.product_code AS productCode,
+      c.customer_city AS customerCity,
+      pa.packaging_value AS packingValue,
+      pa.packaging_packing AS packingName,
+      p.product_sell_price * s.invoice_exchange_rate AS hargaNett,
+      p.product_sell_price AS hargaAcuan,
+      s.invoice_exchange_rate AS kurs,
+      ss.invoice_item_disc_amount * s.invoice_exchange_rate AS diskonQty,
+      s.invoice_disc_percent /100 AS diskonP
 
   FROM tbl_sales_invoice s
-  LEFT JOIN tbl_sales_invoice_item ss ON s.id = ss.invoice_id
-  LEFT JOIN tbl_product p ON ss.product_id = p.id
-  LEFT JOIN tbl_employee e ON s.salesman_id = e.id
-  LEFT JOIN tbl_customer c ON s.customer_id = c.id
-  WHERE s.invoice_date BETWEEN '{$start_date}' AND '{$end_date}'
-  GROUP BY s.invoice_date, s.invoice_code
-  ORDER BY s.invoice_date ASC";
+  INNER JOIN tbl_sales_invoice_item ss ON s.id = ss.invoice_id
+  INNER JOIN tbl_product p ON ss.product_id = p.id
+  INNER JOIN tbl_employee e ON s.salesman_id = e.id
+  INNER JOIN tbl_customer c ON s.customer_id = c.id
+  INNER JOIN tbl_packaging pa ON ss.packaging_id = pa.id
+  WHERE s.invoice_date BETWEEN '{$start_date}' AND '{$end_date}'";
   return $db->query($sql);
 }
 /*--------------------------------------------------------------*/
@@ -363,14 +371,37 @@ function  dailySales($year,$month){
 /*--------------------------------------------------------------*/
 /* Function for Generate Monthly sales report
 /*--------------------------------------------------------------*/
-function  monthlySales($year){
+function  monthlySales($month,$year){
   global $db;
-  $sql = "SELECT ss.invoice_item_qty AS Qty, s.created_on as tanggal, p.product_name AS product, (p.product_sell_price * ss.invoice_item_qty) AS totalSell
+  $sql = "SELECT 
+      s.invoice_code AS invoice, 
+      s.created_on AS invoiceCreate, 
+      c.customer_store_name AS customer, 
+      e.employee_name AS salesman, 
+      s.invoice_grand_total, 
+      ss.invoice_item_qty AS quantity, 
+      s.invoice_date AS invoiceDate, 
+      s.invoice_subtotal AS invoiceSubTotal, 
+      s.invoice_disc_amount AS invoiceDiscount,
+      s.invoice_disc_amount2 AS invoiceDiscount2,
+      p.product_name AS productName,
+      p.product_code AS productCode,
+      c.customer_city AS customerCity,
+      pa.packaging_value AS packingValue,
+      pa.packaging_packing AS packingName,
+      p.product_sell_price * s.invoice_exchange_rate AS hargaNett,
+      p.product_sell_price AS hargaAcuan,
+      s.invoice_exchange_rate AS kurs,
+      ss.invoice_item_disc_amount * s.invoice_exchange_rate AS diskonQty,
+      s.invoice_disc_percent /100 AS diskonP
+
   FROM tbl_sales_invoice s
-  LEFT JOIN tbl_sales_invoice_item ss ON s.id = ss.invoice_id
-  LEFT JOIN tbl_product p ON p.id = ss.product_id
-  WHERE DATE_FORMAT(s.created_on, '%Y' ) = '{$year}'
-  GROUP BY DATE_FORMAT(s.created_on,  '%c' ), p.product_name ASC";
+  INNER JOIN tbl_sales_invoice_item ss ON s.id = ss.invoice_id
+  INNER JOIN tbl_product p ON ss.product_id = p.id
+  INNER JOIN tbl_employee e ON s.salesman_id = e.id
+  INNER JOIN tbl_customer c ON s.customer_id = c.id
+  INNER JOIN tbl_packaging pa ON ss.packaging_id = pa.id
+  WHERE MONTH(s.invoice_date)='$month' AND YEAR(s.invoice_date)='$year'";
   return find_by_sql($sql);
 }
 /*--------------------------------------------------------------*/

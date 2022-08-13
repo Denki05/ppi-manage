@@ -161,6 +161,11 @@ function formatDollars($dollars){
 /*--------------------------------------------------------------*/
 function format_date($date)
 {
-  return date('Y-m-d', strtotime($date));
+  return date('d-m-Y', strtotime($date));
+}
+
+function decimal_format($value)
+{
+  return number_format((float)$value, 2, '.', '');
 }
 ?>

@@ -25,7 +25,7 @@ $results = '';
   }
 ?>
 <?php include_once('layouts/header.php'); ?>
-<div class="row">
+  <div class="row">
      <div class="col-md-12">
        <?php echo display_msg($msg); ?>
      </div>
@@ -40,24 +40,21 @@ $results = '';
           <table id="sales_report" class="display" style="width:100%">
             <thead>
               <tr>
-                <th>Tanggal</th>
+                <th>Date</th>
                 <th>Invoice</th>
                 <th>Customer</th>
                 <th>Kota</th>
                 <th>Product Code</th>
                 <th>Product Name</th>
-                <th>Quantity</th>
-                <th>Packing</th>
-                <th>Harga @</th>
-                <th>Disc Qty</th>
-                <th>Disc Agen</th>
-                <th>Netto</th>
-                <th>Jumlah</th>
-                <th>Cashback</th>
-                <th>Jumlah</th>
-                <th>PPN 11%</th>
-                <th>Jumlah</th>
+                <th>Qty</th>
+                <th>Packing Value</th>
+                <th>Packing Name</th>
+                <th>Harga Acuan</th>
                 <th>Kurs</th>
+                <th>Harga @</th>
+                <th style="color:red;">Diskon Qty</th>
+                <th>Diskon Agen</th>
+                <th>Netto</th>
                 <th>Salesman</th>
               </tr>
             </thead>
@@ -67,21 +64,18 @@ $results = '';
                 <td><?php echo format_date($result['invoiceDate']);?> </td>
                 <td><?php echo remove_junk(ucfirst($result['invoice']));?> </td>
                 <td><?php echo remove_junk(ucfirst($result['customer']));?> </td>
-                <td><?php echo remove_junk(ucfirst($result['salesman']));?> </td>
-                <td><?php echo remove_junk($result['quantityTotal']);?></td>
-                <td><?php echo number_format($result['invoiceShipCost']);?></td>
-                <td><?php echo number_format($result['invoiceSubTotal'] - $result['invoiceDiscount'] - $result['invoiceDiscount2']);?></td>
-                <td><?php echo number_format($result['invoice_grand_total']);?></td>
-                <td><?php echo number_format($result['invoice_grand_total']);?></td>
-                <td><?php echo number_format($result['invoice_grand_total']);?></td>
-                <td><?php echo number_format($result['invoice_grand_total']);?></td>
-                <td><?php echo number_format($result['invoice_grand_total']);?></td>
-                <td><?php echo number_format($result['invoice_grand_total']);?></td>
-                <td><?php echo number_format($result['invoice_grand_total']);?></td>
-                <td><?php echo number_format($result['invoice_grand_total']);?></td>
-                <td><?php echo number_format($result['invoice_grand_total']);?></td>
-                <td><?php echo number_format($result['invoice_grand_total']);?></td>
-                <td><?php echo number_format($result['invoice_grand_total']);?></td>
+                <td><?php echo remove_junk(ucfirst($result['customerCity']));?> </td>
+                <td><?php echo remove_junk(ucfirst($result['productCode']));?> </td>
+                <td><?php echo remove_junk(ucfirst($result['productName']));?> </td>
+                <td><?php echo remove_junk($result['quantity']);?></td>
+                <td><?php echo number_format($result['packingValue']);?></td>
+                <td><?php echo remove_junk(ucfirst($result['packingName']));?> </td>
+                <td><?php echo number_format($result['hargaAcuan']);?></td>
+                <td><?php echo number_format($result['kurs']);?></td>
+                <td><?php echo number_format($result['hargaNett']);?></td>
+                <td style="color:red;"><?php echo number_format($result['diskonQty']);?></td>
+                <td><?php echo number_format(($result['hargaNett'] - $result['diskonQty']) * $result['diskonP']);?></td>
+                <td><?php echo number_format($result['hargaNett'] - $result['diskonQty'] - ($result['hargaNett'] - $result['diskonQty']) * $result['diskonP']);?></td>
                 <td><?php echo remove_junk(ucfirst($result['salesman']));?> </td>
               </tr>
              <?php endforeach; ?>
@@ -97,10 +91,9 @@ $results = '';
     $(document).ready(function() {
       $('#sales_report').DataTable( {
           dom: 'Bfrtip',
-          scrollY:  "300px",
-          scrollX:  true,
+          scrollY:        "300px",
+          scrollX:        true,
           scrollCollapse: true,
-          
           buttons: [
               'excelHtml5',
               'pdfHtml5'
