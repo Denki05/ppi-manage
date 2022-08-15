@@ -67,10 +67,10 @@ $results = '';
                 <td><?php echo remove_junk(ucfirst($result['customerCity']));?> </td>
                 <td><?php echo remove_junk(ucfirst($result['productCode']));?> </td>
                 <td><?php echo remove_junk(ucfirst($result['productName']));?> </td>
-                <td><?php echo remove_junk($result['quantity']);?></td>
+                <td><?php echo decimal_format($result['quantity']);?></td>
                 <td><?php echo number_format($result['packingValue']);?></td>
                 <td><?php echo remove_junk(ucfirst($result['packingName']));?> </td>
-                <td><?php echo number_format($result['hargaAcuan']);?></td>
+                <td><?php echo formatDollars($result['hargaAcuan']);?></td>
                 <td><?php echo number_format($result['kurs']);?></td>
                 <td><?php echo number_format($result['hargaNett']);?></td>
                 <td style="color:red;"><?php echo number_format($result['diskonQty']);?></td>
