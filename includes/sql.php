@@ -328,7 +328,7 @@ function find_sale_by_dates($start_date,$end_date){
       e.employee_name AS salesman, 
       s.invoice_grand_total, 
       s.invoice_date AS invoiceDate, 
-      ss.invoice_item_qty AS quantityTotal, 
+      ss.invoice_item_qty AS quantity, 
       s.invoice_date AS invoiceDate, 
       s.invoice_subtotal AS invoiceSubTotal, 
       s.invoice_disc_amount AS invoiceDiscount,

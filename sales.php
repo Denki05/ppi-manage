@@ -17,6 +17,9 @@ $sales = find_all_sale();
     <div class="col-md-12">
       <div class="panel panel-default">
         <div class="panel-heading clearfix">
+          <div class="pull-right">
+           <a id="exportProduct" href="report/srpdf.php" class="btn btn-primary">Export Sales List PDF</a>
+         </div>
           <strong>
             <span class="glyphicon glyphicon-th"></span>
             <span>All Sales</span>
