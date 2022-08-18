@@ -114,10 +114,15 @@ function total_payment($totalPayment){
 /*--------------------------------------------------------------*/
 function read_date($str){
      if($str)
-      return date('d F Y', strtotime($str));
+      return date('Y-m-d H:i:s', strtotime($str)); 
      else
       return null;
   }
+//Last Login
+function last_login()
+{
+  return date('Y-m-d H:i:s');
+}
 /*--------------------------------------------------------------*/
 /* Function for  Readable Make date time
 /*--------------------------------------------------------------*/

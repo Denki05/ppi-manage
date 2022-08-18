@@ -55,6 +55,11 @@ $results = '';
                 <th style="color:red;">Diskon Qty</th>
                 <th>Diskon Agen</th>
                 <th>Netto</th>
+                <th>Jumlah (Before Cashback)</th>
+                <th>Cashback</th>
+                <th>Jumlah (After Cashback)</th>
+                <th>PPN 11%</th>
+                <th>Jumlah (After PPN)</th>
                 <th>Salesman</th>
               </tr>
             </thead>
@@ -76,6 +81,11 @@ $results = '';
                 <td style="color:red;"><?php echo number_format($result['diskonQty']);?></td>
                 <td><?php echo number_format(($result['hargaNett'] - $result['diskonQty']) * $result['diskonP']);?></td>
                 <td><?php echo number_format($result['hargaNett'] - $result['diskonQty'] - ($result['hargaNett'] - $result['diskonQty']) * $result['diskonP']);?></td>
+                <td><?php echo number_format(($result['hargaNett'] - $result['diskonQty'] - ($result['hargaNett'] - $result['diskonQty']) * $result['diskonP']) * $result['quantity']);?></td>
+                <td style="text-align:center;">-</td>
+                <td><?php echo number_format(($result['hargaNett'] - $result['diskonQty'] - ($result['hargaNett'] - $result['diskonQty']) * $result['diskonP']) * $result['quantity']);?></td>
+                <td style="text-align:center;">-</td>
+                <td><?php echo number_format(($result['hargaNett'] - $result['diskonQty'] - ($result['hargaNett'] - $result['diskonQty']) * $result['diskonP']) * $result['quantity']);?></td>
                 <td><?php echo remove_junk(ucfirst($result['salesman']));?> </td>
               </tr>
              <?php endforeach; ?>

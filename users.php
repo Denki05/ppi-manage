@@ -51,7 +51,7 @@
             <span class="label label-danger"><?php echo "Deactive"; ?></span>
           <?php endif;?>
            </td>
-           <td><?php echo read_date($a_user['last_login'])?></td>
+           <td><?php echo last_login($a_user['last_login'])?></td>
            <td class="text-center">
              <div class="btn-group">
                 <a href="edit_user.php?id=<?php echo (int)$a_user['id'];?>" class="btn btn-xs btn-warning" data-toggle="tooltip" title="Edit">
