@@ -105,8 +105,16 @@ $results = '';
           scrollX:        true,
           scrollCollapse: true,
           buttons: [
-              'excelHtml5',
-              'pdfHtml5'
+            {
+                extend: 'pdfHtml5',
+                orientation: 'landscape',
+                pageSize: 'A3'
+            },
+            {
+              extend: 'excelHtml5',
+              orientation: 'landscape',
+              pageSize: 'A4'
+            }
           ]
       } );
     });

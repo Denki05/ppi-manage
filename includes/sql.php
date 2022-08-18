@@ -293,8 +293,7 @@ function tableExists($table){
     LEFT JOIN tbl_sales_invoice ss ON ss.id = s.invoice_id
     LEFT JOIN tbl_customer c ON c.id = ss.customer_id
     LEFT JOIN tbl_employee e ON e.id = ss.salesman_id
-    LEFT JOIN tbl_product p ON s.product_id = p.id
-    GROUP BY ss.invoice_date ASC";
+    LEFT JOIN tbl_product p ON s.product_id = p.id";
    return find_by_sql($sql);
  }
  /*--------------------------------------------------------------*/
