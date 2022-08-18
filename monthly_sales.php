@@ -32,9 +32,9 @@ $results = '';
     <div class="col-md-12">
       <div class="panel panel-default"> 
         <div class="panel-heading clearfix">
-         <div>
+         <!-- <div>
            <a id="exportProduct" href="report/sales_report.php" class="btn btn-primary">CR Export Type</a>
-         </div>
+         </div> -->
         </div>
         <div class="panel-body">
           <table id="sales_report" class="display" style="width:100%">
