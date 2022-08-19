@@ -35,6 +35,14 @@ $results = '';
          <!-- <div>
            <a id="exportProduct" href="report/sales_report.php" class="btn btn-primary">CR Export Type</a>
          </div> -->
+          <!-- <div>
+            <select id="categoryFilter" class="form-control">
+              <option value="">Show All</option>
+              <option value="Classical">Classical</option>
+              <option value="Hip Hop">Hip Hop</option>
+              <option value="Jazz">Jazz</option>
+            </select>
+          </div> -->
         </div>
         <div class="panel-body">
           <table id="sales_report" class="display" style="width:100%">
