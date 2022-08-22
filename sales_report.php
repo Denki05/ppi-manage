@@ -20,9 +20,9 @@ $page_title = 'Sale Report';
           <form class="clearfix" method="POST" action="sale_report_process.php">
             <div class="form-group">
                 <div class="input-group">
-                  <input type="text" class="datepicker form-control" name="start-date" placeholder="From">
+                  <input type="text" class="datepicker form-control" name="start-date" placeholder="From" value="<?php echo date('Y-m-d'); ?>">
                   <span class="input-group-addon"><i class="glyphicon glyphicon-menu-right"></i></span>
-                  <input type="text" class="datepicker form-control" name="end-date" placeholder="To">
+                  <input type="text" class="datepicker form-control" name="end-date" placeholder="To" value="<?php echo date('Y-m-d'); ?>">
                 </div>
             </div>
             <div class="form-group">
