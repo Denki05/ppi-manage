@@ -23,24 +23,30 @@
             <thead>
               <tr>
                 <th class="text-center" >#</th>
-                <th> Product Name</th>
-                <th> Product Code </th>
-                <th class="text-center">Searah</th>
-                <th class="text-center">Category</th>
-                <th class="text-center">Cost Price</th>
-                <th class="text-center">Sell Price</th>
+                <th> Kode Bahan</th>
+                <th> Nama Bahan </th>
+                <th> Kode Barang </th>
+                <th> Nama Barang </th>
+                <th> Pabrik </th>
+                <th> Merek </th>
+                <th> Kategori </th>
+                <th> Status </th>
+                <th> Tipe Barang </th>
               </tr>
             </thead>
             <tbody>
               <?php foreach ($products as $product):?>
               <tr>
                 <td class="text-center"><?php echo count_id();?></td>
-                <td> <?php echo remove_junk($product['product_name']); ?></td>
+                <td> <?php echo remove_junk($product['product_material_code']); ?></td>
+                <td> <?php echo remove_junk($product['product_material_name']); ?></td>
                 <td> <?php echo remove_junk($product['product_code']); ?></td>
-                <td class="text-center"> <?php echo remove_junk($product['searah_name']); ?></td>
-                <td class="text-center"> <?php echo remove_junk($product['category_name']); ?></td>
-                <td class="text-center"> <?php echo remove_junk($product['product_cost_price']); ?></td>
-                <td class="text-center"> <?php echo remove_junk($product['product_sell_price']); ?></td>
+                <td> <?php echo remove_junk($product['product_name']); ?></td>
+                <td> <?php echo remove_junk($product['factory_name']); ?></td>
+                <td> <?php echo remove_junk($product['brand_name']); ?></td>
+                <td> <?php echo remove_junk($product['category_name']); ?></td>
+                <td> <?php echo remove_junk($product['product_status']); ?></td>
+                <td> <?php echo remove_junk($product['product_type']); ?></td>
               </tr>
              <?php endforeach; ?>
             </tbody>

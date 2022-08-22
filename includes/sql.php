@@ -206,11 +206,24 @@ function tableExists($table){
    /*--------------------------------------------------------------*/
   function join_product_table(){
     global $db;
-    $sql  =" SELECT p.id, p.product_name, p.product_code, s.searah_name, p.product_cost_price, p.product_sell_price, p.product_type, c.category_name";
+    $sql  =" SELECT p.product_material_code,
+                    p.product_material_name,
+                    p.product_code,
+                    p.product_name,
+                    f.factory_name,
+                    b.brand_name,
+                    c.category_name,
+                    p.product_status,
+                    p.product_type,
+                    s.searah_name";
+
     $sql  .=" FROM tbl_product p";
-    $sql  .=" JOIN tbl_category c ON c.id = p.category_id";
-    $sql  .=" JOIN tbl_searah s ON s.id = p.searah_id";
-    $sql  .=" GROUP BY p.id, p.searah_id ";
+    $sql  .=" LEFT JOIN tbl_category AS c ON p.category_id = c.id";
+    $sql  .=" LEFT JOIN tbl_brand AS b ON p.brand_id = b.id";
+    $sql  .=" LEFT JOIN tbl_searah AS s ON p.searah_id = s.id";
+    $sql  .=" LEFT JOIN tbl_factory AS f ON p.factory_id = f.id";
+    $sql  .=" LEFT JOIN tbl_brand AS bb ON p.original_brand_id = bb.id";
+    $sql  .=" GROUP BY p.product_name ASC";
     return find_by_sql($sql);
 
    }
