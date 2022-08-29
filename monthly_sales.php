@@ -98,6 +98,31 @@ $results = '';
               </tr>
              <?php endforeach; ?>
             </tbody>
+            <tfoot>
+              <tr>
+                <th>Total :</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+              </tr>
+            </tfoot>
           </tabel>
         </div>
       </div>
@@ -105,25 +130,54 @@ $results = '';
   </div>
   <?php include("layouts/footer.php"); ?>
 
-  <script>
-    $(document).ready(function() {
-      $('#sales_report').DataTable( {
-          dom: 'Bfrtip',
-          scrollY:        "300px",
-          scrollX:        true,
-          scrollCollapse: true,
-          buttons: [
-            {
-                extend: 'pdfHtml5',
-                orientation: 'landscape',
-                pageSize: 'A3'
-            },
-            {
-              extend: 'excelHtml5',
+  <script type="text/javascript">
+	$(document).ready( function () {
+	    $('#sales_report').DataTable( {
+        dom: 'Bfrtip',
+        scrollY:        "300px",
+        scrollX:        true,
+        scrollCollapse: true,
+        buttons: [
+          {
+              extend: 'pdfHtml5',
               orientation: 'landscape',
-              pageSize: 'A4'
-            }
-          ]
-      } );
-    });
-  </script>
+              pageSize: 'A3',
+              footer: true
+          },
+          {
+            extend: 'excelHtml5',
+            orientation: 'landscape',
+            pageSize: 'A4',
+            footer: true
+          }
+        ],
+        footerCallback: function (row, data, start, end, display) {
+            var api = this.api();
+ 
+            // Remove the formatting to get integer data for summation
+            var intVal = function (i) {
+                return typeof i === 'string' ? i.replace(/[\$,]/g, '') * 1 : typeof i === 'number' ? i : 0;
+            };
+ 
+            // Total over all pages
+            total = api
+                .column(19)
+                .data()
+                .reduce(function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
+ 
+            // Total over this page
+            pageTotal = api
+                .column(19, { page: 'current' })
+                .data()
+                .reduce(function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
+ 
+            // Update footer
+            $(api.column(19).footer()).html('Rp.' + pageTotal + ' ( Rp.' + total + ' total)');
+        },
+		  });
+	});
+</script>
