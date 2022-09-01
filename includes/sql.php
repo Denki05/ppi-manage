@@ -325,7 +325,7 @@ function find_recent_sale_added($limit){
 /*--------------------------------------------------------------*/
 /* Function for Generate sales report by two dates
 /*--------------------------------------------------------------*/
-function find_sale_by_dates($start_date,$end_date){
+function find_sale_by_dates($start_date,$end_date,$invoice_type1){
   global $db;
   $start_date  = date('Y-m-d', strtotime($start_date));
   $end_date    = date('Y-m-d', strtotime($end_date));
@@ -354,7 +354,8 @@ function find_sale_by_dates($start_date,$end_date){
       p.product_sell_price AS hargaAcuan,
       s.invoice_exchange_rate AS kurs,
       ss.invoice_item_disc_amount * s.invoice_exchange_rate AS diskonQty,
-      s.invoice_disc_percent /100 AS diskonP
+      s.invoice_disc_percent /100 AS diskonP,
+      s.invoice_disc_amount2 AS diskonTambahan
 
   FROM tbl_sales_invoice s
   INNER JOIN tbl_sales_invoice_item ss ON s.id = ss.invoice_id
@@ -362,7 +363,8 @@ function find_sale_by_dates($start_date,$end_date){
   INNER JOIN tbl_employee e ON s.salesman_id = e.id
   INNER JOIN tbl_customer c ON s.customer_id = c.id
   INNER JOIN tbl_packaging pa ON ss.packaging_id = pa.id
-  WHERE s.invoice_date BETWEEN '{$start_date}' AND '{$end_date}'";
+  WHERE s.invoice_date BETWEEN '{$start_date}' AND '{$end_date}' AND
+  s.invoice_type = '$invoice_type1'";
   return $db->query($sql);
 }
 /*--------------------------------------------------------------*/
@@ -383,7 +385,7 @@ function  dailySales($year,$month){
 /*--------------------------------------------------------------*/
 /* Function for Generate Monthly sales report
 /*--------------------------------------------------------------*/
-function  monthlySales($month,$year){
+function  monthlySales($month, $year, $invoice_type2){
   global $db;
   $sql = "SELECT 
       s.invoice_code AS invoice, 
@@ -405,7 +407,8 @@ function  monthlySales($month,$year){
       p.product_sell_price AS hargaAcuan,
       s.invoice_exchange_rate AS kurs,
       ss.invoice_item_disc_amount * s.invoice_exchange_rate AS diskonQty,
-      s.invoice_disc_percent /100 AS diskonP
+      s.invoice_disc_percent /100 AS diskonP,
+      s.invoice_disc_amount2 AS diskonTambahan
 
   FROM tbl_sales_invoice s
   INNER JOIN tbl_sales_invoice_item ss ON s.id = ss.invoice_id
@@ -413,7 +416,8 @@ function  monthlySales($month,$year){
   INNER JOIN tbl_employee e ON s.salesman_id = e.id
   INNER JOIN tbl_customer c ON s.customer_id = c.id
   INNER JOIN tbl_packaging pa ON ss.packaging_id = pa.id
-  WHERE MONTH(s.invoice_date)='$month' AND YEAR(s.invoice_date)='$year'";
+  WHERE MONTH(s.invoice_date)='$month' AND YEAR(s.invoice_date)='$year' AND
+  s.invoice_type = '$invoice_type2'";
   return find_by_sql($sql);
 }
 /*--------------------------------------------------------------*/

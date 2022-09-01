@@ -7,13 +7,14 @@ $results = '';
 ?>
 <?php
   if(isset($_POST['submit'])){
-    $req_dates = array('month','year');
+    $req_dates = array('month','year', 'invoice-type2');
     validate_fields($req_dates);
 
     if(empty($errors)):
       $month   = remove_junk($db->escape($_POST['month']));
       $year     = remove_junk($db->escape($_POST['year']));
-      $results      = monthlySales($month,$year);
+      $invoice_type2     = remove_junk($db->escape($_POST['invoice-type2']));
+      $results      = monthlySales($month,$year,$invoice_type2);
     else:
       $session->msg("d", $errors);
       redirect('sales_report.php', false);
@@ -62,6 +63,7 @@ $results = '';
                 <th>Harga @</th>
                 <th style="color:red;">Diskon Qty</th>
                 <th>Diskon Agen</th>
+                <th>Diskon Tambahan</th>
                 <th>Netto</th>
                 <th>Jumlah (Before Cashback)</th>
                 <th>Cashback</th>
@@ -88,12 +90,13 @@ $results = '';
                 <td><?php echo number_format($result['hargaNett']);?></td>
                 <td style="color:red;"><?php echo number_format($result['diskonQty']);?></td>
                 <td><?php echo number_format(($result['hargaNett'] - $result['diskonQty']) * $result['diskonP']);?></td>
+                <td><?php echo number_format($result['diskonTambahan']);?></td>
                 <td><?php echo number_format($result['hargaNett'] - $result['diskonQty'] - ($result['hargaNett'] - $result['diskonQty']) * $result['diskonP']);?></td>
                 <td><?php echo number_format(($result['hargaNett'] - $result['diskonQty'] - ($result['hargaNett'] - $result['diskonQty']) * $result['diskonP']) * $result['quantity']);?></td>
                 <td style="text-align:center;">-</td>
                 <td><?php echo number_format(($result['hargaNett'] - $result['diskonQty'] - ($result['hargaNett'] - $result['diskonQty']) * $result['diskonP']) * $result['quantity']);?></td>
                 <td style="text-align:center;">-</td>
-                <td><?php echo number_format(($result['hargaNett'] - $result['diskonQty'] - ($result['hargaNett'] - $result['diskonQty']) * $result['diskonP']) * $result['quantity']);?></td>
+                <td><?php echo number_format((($result['hargaNett'] - $result['diskonQty'] - ($result['hargaNett'] - $result['diskonQty']) * $result['diskonP']) * $result['quantity']) - $result['diskonTambahan']);?></td>
                 <td><?php echo remove_junk(ucfirst($result['salesman']));?> </td>
               </tr>
              <?php endforeach; ?>
@@ -101,6 +104,7 @@ $results = '';
             <tfoot>
               <tr>
                 <th>Total :</th>
+                <th></th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -141,7 +145,7 @@ $results = '';
           {
               extend: 'pdfHtml5',
               orientation: 'landscape',
-              pageSize: 'A3',
+              pageSize: 'A2',
               footer: true
           },
           {
@@ -161,7 +165,7 @@ $results = '';
  
             // Total over all pages
             total = api
-                .column(19)
+                .column(20)
                 .data()
                 .reduce(function (a, b) {
                     return intVal(a) + intVal(b);
@@ -169,14 +173,14 @@ $results = '';
  
             // Total over this page
             pageTotal = api
-                .column(19, { page: 'current' })
+                .column(20, { page: 'current' })
                 .data()
                 .reduce(function (a, b) {
                     return intVal(a) + intVal(b);
                 }, 0);
  
             // Update footer
-            $(api.column(19).footer()).html('Rp.' + pageTotal + ' ( Rp.' + total + ' total)');
+            $(api.column(20).footer()).html('Rp.' + pageTotal + ' ( Rp.' + total + ' total)');
         },
 		  });
 	});

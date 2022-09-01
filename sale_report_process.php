@@ -7,18 +7,19 @@ $results = '';
 ?>
 <?php
   if(isset($_POST['submit'])){
-    $req_dates = array('start-date','end-date');
+    $req_dates = array('start-date','end-date', 'invoice-type1');
     validate_fields($req_dates);
 
     if(empty($errors)):
       $start_date   = remove_junk($db->escape($_POST['start-date']));
       $end_date     = remove_junk($db->escape($_POST['end-date']));
-      $results      = find_sale_by_dates($start_date,$end_date);
+      $invoice_type1     = remove_junk($db->escape($_POST['invoice-type1']));
+      $results      = find_sale_by_dates($start_date,$end_date,$invoice_type1);
     else:
       $session->msg("d", $errors);
       redirect('sales_report.php', false);
     endif;
-
+    // echo $results;
   } else {
     $session->msg("d", "Select dates");
     redirect('sales_report.php', false);
@@ -40,7 +41,7 @@ $results = '';
           <table id="sales_report" class="display" style="width:100%">
             <thead>
               <tr>
-              <th>Date</th>
+                <th>Date</th>
                 <th>Invoice</th>
                 <th>Customer</th>
                 <th>Kota</th>
@@ -54,6 +55,7 @@ $results = '';
                 <th>Harga @</th>
                 <th style="color:red;">Diskon Qty</th>
                 <th>Diskon Agen</th>
+                <th>Diskon Tambahan</th>
                 <th>Netto</th>
                 <th>Jumlah (Before Cashback)</th>
                 <th>Cashback</th>
@@ -65,8 +67,8 @@ $results = '';
             </thead>
             <tbody>
               <?php foreach ($results as $result):?>
-              <tr>
-              <td><?php echo format_date($result['invoiceDate']);?> </td>
+                <tr>
+                <td><?php echo format_date($result['invoiceDate']);?> </td>
                 <td><?php echo remove_junk(ucfirst($result['invoice']));?> </td>
                 <td><?php echo remove_junk(ucfirst($result['customer']));?> </td>
                 <td><?php echo remove_junk(ucfirst($result['customerCity']));?> </td>
@@ -80,12 +82,13 @@ $results = '';
                 <td><?php echo number_format($result['hargaNett']);?></td>
                 <td style="color:red;"><?php echo number_format($result['diskonQty']);?></td>
                 <td><?php echo number_format(($result['hargaNett'] - $result['diskonQty']) * $result['diskonP']);?></td>
+                <td><?php echo number_format($result['diskonTambahan']);?></td>
                 <td><?php echo number_format($result['hargaNett'] - $result['diskonQty'] - ($result['hargaNett'] - $result['diskonQty']) * $result['diskonP']);?></td>
                 <td><?php echo number_format(($result['hargaNett'] - $result['diskonQty'] - ($result['hargaNett'] - $result['diskonQty']) * $result['diskonP']) * $result['quantity']);?></td>
                 <td style="text-align:center;">-</td>
                 <td><?php echo number_format(($result['hargaNett'] - $result['diskonQty'] - ($result['hargaNett'] - $result['diskonQty']) * $result['diskonP']) * $result['quantity']);?></td>
                 <td style="text-align:center;">-</td>
-                <td><?php echo number_format(($result['hargaNett'] - $result['diskonQty'] - ($result['hargaNett'] - $result['diskonQty']) * $result['diskonP']) * $result['quantity']);?></td>
+                <td><?php echo number_format((($result['hargaNett'] - $result['diskonQty'] - ($result['hargaNett'] - $result['diskonQty']) * $result['diskonP']) * $result['quantity']) - $result['diskonTambahan']);?></td>
                 <td><?php echo remove_junk(ucfirst($result['salesman']));?> </td>
               </tr>
              <?php endforeach; ?>
@@ -93,6 +96,7 @@ $results = '';
             <tfoot>
               <tr>
                 <th>Total :</th>
+                <th></th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -153,7 +157,7 @@ $results = '';
  
             // Total over all pages
             total = api
-                .column(19)
+                .column(20)
                 .data()
                 .reduce(function (a, b) {
                     return intVal(a) + intVal(b);
@@ -161,14 +165,14 @@ $results = '';
  
             // Total over this page
             pageTotal = api
-                .column(19, { page: 'current' })
+                .column(20, { page: 'current' })
                 .data()
                 .reduce(function (a, b) {
                     return intVal(a) + intVal(b);
                 }, 0);
  
             // Update footer
-            $(api.column(19).footer()).html('Rp.' + pageTotal + ' ( Rp.' + total + ' total)');
+            $(api.column(20).footer()).html('Rp.' + pageTotal + ' ( Rp.' + total + ' total)');
         },
 		  });
 	});
