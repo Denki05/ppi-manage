@@ -6,7 +6,7 @@ $my_report = "C:\\xampp\\htdocs\\ppi-manage\\report\\product_list2.rpt";
 $my_pdf = "C:\\xampp\\htdocs\\ppi-manage\\report\\export\\product_list.pdf"; 
 
 //- Variables - Server Information 
-$my_server = "SERVER2"; 
+$my_server = "SERVER_PPI"; 
 $my_user = "ppi_report"; 
 $my_password = "Denki@05121996"; 
 $my_database = "ppi";

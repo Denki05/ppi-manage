@@ -64,5 +64,5 @@ $sales = find_all_sale();
 <script>
   $(document).ready( function () {
     $('#sales').DataTable();
-} );
+  });
 </script>
