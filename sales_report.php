@@ -42,7 +42,6 @@ $page_title = 'Sale Report';
             </div>
           </form>
       </div>
-      
     </div>
   </div>
 </div>
@@ -62,7 +61,8 @@ $page_title = 'Sale Report';
                       <?php
                         for($i=0; $i<12; $i++)
                         {
-                            $monthtime = mktime(0,0,0,$month + $i,1);
+                            // $selmonth = date();
+                            $monthtime = mktime(0,0,0,$month + $i);
                             $monthnum = date('m', $monthtime);
                             echo '
                             <option value="'.$monthnum.'"'.
@@ -72,8 +72,6 @@ $page_title = 'Sale Report';
                       ?>
                     </select>
                 </div>
-            </div>
-            <div class="form-group">
                 <div class="input-group">
                   <label>Year: </label>
                     <select name="year" class="form-control">
@@ -86,22 +84,18 @@ $page_title = 'Sale Report';
                       ?>
                     </select>
                 </div>
-            </div>
-
-            <div class="form-group">
                 <div class="input-group">
                   <label class="form-label">Invoice type: </label>
-                    <select name="invoice-type2" class="form-control">
-                      <option value="all">ALL</option>
+                    <select name="invoice-type2" class="form-control ">
+                      <option value="">Select Type</option>
                       <option value="ppn">PPN</option>
                       <option value="nonppn">NON PPN</option>
                     </select>
                 </div>
             </div>
-
             <div class="form-group">
                  <button type="submit" name="submit" class="btn btn-primary">Generate Register</button>
-                 <!-- <button type="submit-report2" name="submit-report2" class="btn btn-primary">Generate Report</button> -->
+                 <button type="submit" name="submit" class="btn btn-primary" formaction="monthly_sales2.php">Save for Later</button>
             </div>
           </form>
       </div>

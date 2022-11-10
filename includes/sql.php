@@ -421,6 +421,32 @@ function  monthlySales($month, $year, $invoice_type2){
   return find_by_sql($sql);
 }
 /*--------------------------------------------------------------*/
+/* Function for Generate Monthly sales report
+/*--------------------------------------------------------------*/
+function  monthlySales2($month, $year, $invoice_type2){
+  global $db;
+  $sql = "SELECT 
+      s.invoice_date AS invDate, 
+      s.invoice_code AS invCode, 
+      c.customer_store_name AS custName, 
+      s.invoice_shipping_cost AS invShipCost, 
+      s.invoice_subtotal - s.invoice_disc_amount - s.invoice_disc_amount2 AS invSubTotal,
+      s.invoice_grand_total AS invGrandTotal, 
+      sum(ss.invoice_item_qty) AS invQty, 
+      e.employee_name AS salesman
+
+  FROM tbl_sales_invoice s
+  INNER JOIN tbl_sales_invoice_item ss ON s.id = ss.invoice_id
+  INNER JOIN tbl_product p ON ss.product_id = p.id
+  INNER JOIN tbl_employee e ON s.salesman_id = e.id
+  INNER JOIN tbl_customer c ON s.customer_id = c.id
+  INNER JOIN tbl_packaging pa ON ss.packaging_id = pa.id
+  WHERE MONTH(s.invoice_date)='$month' AND YEAR(s.invoice_date)='$year' AND
+  s.invoice_type = '$invoice_type2'
+  GROUP BY s.invoice_code";
+  return find_by_sql($sql);
+}
+/*--------------------------------------------------------------*/
 /* Function for Generate  finance report
 /*--------------------------------------------------------------*/
 function find_finance_by_dates($start_date,$end_date){
