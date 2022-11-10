@@ -7,14 +7,16 @@ $results = '';
 ?>
 <?php
   if(isset($_POST['submit'])){
-    $req_dates = array('month','year', 'invoice-type2');
-    validate_fields($req_dates);
+    $req_dates = array('month','year');
+    $req_type = array('invoice-type2');
+    validate_fields($req_dates, $req_type);
 
     if(empty($errors)):
-      $month   = remove_junk($db->escape($_POST['month']));
-      $year     = remove_junk($db->escape($_POST['year']));
-      $invoice_type2     = remove_junk($db->escape($_POST['invoice-type2']));
-      $results      = monthlySales($month,$year,$invoice_type2);
+      $month              = remove_junk($db->escape($_POST['month']));
+      $year               = remove_junk($db->escape($_POST['year']));
+      $invoice_type2      = remove_junk($db->escape($_POST['invoice-type2']));
+      $results            = monthlySales($month,$year,$invoice_type2);
+      // $result_explode     =
     else:
       $session->msg("d", $errors);
       redirect('sales_report.php', false);

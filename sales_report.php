@@ -60,17 +60,17 @@ $page_title = 'Sale Report';
                   <label class="form-label">Month: </label>
                     <select name="month" class="form-control">
                       <?php
-          
-                          for ($i = 1; $i <= 12; $i++)
-                          {
-                              $month = date('F', mktime(0, 0, 0, $i, 1, 2011));
-                              ?>
-                              <option value="<?php echo $i; ?>"><?php echo $month; ?></option>
-                              <?php
-                          }
-          
+                        for($i=0; $i<12; $i++)
+                        {
+                            $monthtime = mktime(0,0,0,$month + $i,1);
+                            $monthnum = date('m', $monthtime);
+                            echo '
+                            <option value="'.$monthnum.'"'.
+                            ($monthnum ? ' selected="selected"' : '').
+                            '>'.date('F', $monthtime).'</option>';
+                        }                        
                       ?>
-                  </select>
+                    </select>
                 </div>
             </div>
             <div class="form-group">
@@ -78,7 +78,7 @@ $page_title = 'Sale Report';
                   <label>Year: </label>
                     <select name="year" class="form-control">
                       <?php
-                          for($n=date('Y');$n<=2050;$n++){
+                          for($n=date('Y');$n<=2025;$n++){
                               ?>
                               <option value="<?php echo $n; ?>"><?php echo $n; ?></option>
                               <?php
@@ -92,6 +92,7 @@ $page_title = 'Sale Report';
                 <div class="input-group">
                   <label class="form-label">Invoice type: </label>
                     <select name="invoice-type2" class="form-control">
+                      <option value="all">ALL</option>
                       <option value="ppn">PPN</option>
                       <option value="nonppn">NON PPN</option>
                     </select>
