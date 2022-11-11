@@ -1,5 +1,5 @@
 <?php
-$page_title = 'Sales Report Monthly';
+$page_title = 'Sales Report Monthly : Omset';
 $results = '';
   require_once('includes/load.php');
   // Checkin What level user has permission to view this page
@@ -142,7 +142,27 @@ $results = '';
                 }, 0);
  
             // Update footer
-            $(api.column(5).footer()).html('Rp.' + total + ' total');
+            var numFormat = $.fn.dataTable.render.number( '\,', '.', 2, 'Rp.' ).display;
+            $(api.column(5).footer()).html(numFormat(total));
+
+            total = api
+            .column( 6 )
+            .data()
+            .reduce( function (a, b) {
+                return intVal(a) + intVal(b);
+            }, 0 );
+ 
+            // Total over this page
+            pageTotal = api
+                .column( 6, { page: 'current'} )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+    
+            // Update footer
+            var numFormat = $.fn.dataTable.render.number( '\,', '.', 2, 'Rp.' ).display;
+            $( api.column( 6 ).footer() ).html(numFormat(total));
         },
 		  });
 	});

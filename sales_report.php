@@ -24,9 +24,6 @@ $page_title = 'Sale Report';
                   <span class="input-group-addon"><i class="glyphicon glyphicon-menu-right"></i></span>
                   <input type="text" class="datepicker form-control" name="end-date" placeholder="To" value="<?php echo date('Y-m-d'); ?>">
                 </div>
-            </div>
-
-            <div class="form-group">
                 <div class="input-group">
                   <label class="form-label">Invoice type: </label>
                     <select name="invoice-type1" class="form-control">
@@ -35,7 +32,6 @@ $page_title = 'Sale Report';
                     </select>
                 </div>
             </div>
-
             <div class="form-group">
                  <button type="submit" name="submit" class="btn btn-primary">Generate Register</button>
                  <!-- <button type="submit-report" name="submit-report" class="btn btn-primary">Generate Report</button> -->
@@ -86,8 +82,8 @@ $page_title = 'Sale Report';
                 </div>
                 <div class="input-group">
                   <label class="form-label">Invoice type: </label>
-                    <select name="invoice-type2" class="form-control ">
-                      <option value="">Select Type</option>
+                    <select name="invoice-type2" class="form-control">
+                      <option value="">All</option>
                       <option value="ppn">PPN</option>
                       <option value="nonppn">NON PPN</option>
                     </select>
@@ -95,7 +91,7 @@ $page_title = 'Sale Report';
             </div>
             <div class="form-group">
                  <button type="submit" name="submit" class="btn btn-primary">Generate Register</button>
-                 <button type="submit" name="submit" class="btn btn-primary" formaction="monthly_sales2.php">Save for Later</button>
+                 <button type="submit" name="submit" class="btn btn-primary" formaction="monthly_sales2.php">Generate Report</button>
             </div>
           </form>
       </div>

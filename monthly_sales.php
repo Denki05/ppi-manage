@@ -1,5 +1,5 @@
 <?php
-$page_title = 'Sales Report Monthly';
+$page_title = 'Sales Report Monthly : Register';
 $results = '';
   require_once('includes/load.php');
   // Checkin What level user has permission to view this page
@@ -182,7 +182,8 @@ $results = '';
                 }, 0);
  
             // Update footer
-            $(api.column(20).footer()).html('Rp.' + pageTotal + ' ( Rp.' + total + ' total)');
+            var numFormat = $.fn.dataTable.render.number( '\,', '.', 2, 'Rp.' ).display;
+            $(api.column(20).footer()).html(numFormat(total));
         },
 		  });
 	});
