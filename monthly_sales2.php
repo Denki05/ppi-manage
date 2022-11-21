@@ -8,13 +8,14 @@ $results = '';
 <?php
   if(isset($_POST['submit'])){
     $req_dates = array('month','year');
-    $req_type = array('invoice-type2');
-    validate_fields($req_dates, $req_type);
+    // $req_type = array('invoice-type2');
+    validate_fields($req_dates);
 
     if(empty($errors)):
       $month              = remove_junk($db->escape($_POST['month']));
       $year               = remove_junk($db->escape($_POST['year']));
       $invoice_type2      = remove_junk($db->escape($_POST['invoice-type2']));
+      $is_deleted         = remove_junk($db->escape($_POST['invoice-type2']));
       $results            = monthlySales2($month,$year,$invoice_type2);
       // $result_explode     =
     else:
@@ -38,17 +39,17 @@ $results = '';
          <!-- <div>
            <a id="exportProduct" href="report/sales_report.php" class="btn btn-primary">CR Export Type</a>
          </div> -->
-          <!-- <div>
-            <select id="categoryFilter" class="form-control">
-              <option value="">Show All</option>
-              <option value="Classical">Classical</option>
-              <option value="Hip Hop">Hip Hop</option>
-              <option value="Jazz">Jazz</option>
+          <!-- <div class="input-group">
+            <label class="form-label">Invoice type: </label>
+            <select name="invoice-type2" class="form-control">
+              <option value="all">All</option>
+              <option value="ppn">PPN</option>
+              <option value="nonppn">NON PPN</option>
             </select>
           </div> -->
         </div>
         <div class="panel-body">
-          <table id="sales_report" class="display" style="width:100%">
+          <table class="datatable table table-striped table-vcenter table-responsive table-sm display nowrap" style="width:100%">
             <thead>
               <tr>
                 <th>Date</th>
@@ -96,74 +97,76 @@ $results = '';
 
   <script type="text/javascript">
 	$(document).ready( function () {
-	    $('#sales_report').DataTable( {
-        dom: 'Bfrtip',
-        scrollY:        "300px",
-        scrollX:        true,
-        scrollCollapse: true,
-        buttons: [
-          {
-              extend: 'pdfHtml5',
-              title: 'Sales Report Omset',
-              orientation: 'potrait',
-              pageSize: 'A4',
-              footer: true
-          },
-          {
-            extend: 'excelHtml5',
-            title: 'Sales Report Omset',
-            orientation: 'landscape',
-            pageSize: 'A4',
-            footer: true
-          }
-        ],
-        footerCallback: function (row, data, start, end, display) {
-            var api = this.api();
- 
-            // Remove the formatting to get integer data for summation
-            var intVal = function (i) {
-                return typeof i === 'string' ? i.replace(/[\$,]/g, '') * 1 : typeof i === 'number' ? i : 0;
-            };
- 
-            // Total over all pages
-            total = api
-                .column(5)
-                .data()
-                .reduce(function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0);
- 
-            // Total over this page
-            pageTotal = api
-                .column(5, { page: 'current' })
-                .data()
-                .reduce(function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0);
- 
-            // Update footer
-            var numFormat = $.fn.dataTable.render.number( '\,', '.', 2, 'Rp.' ).display;
-            $(api.column(5).footer()).html(numFormat(total));
+    $('.datatable').DataTable( {
 
-            total = api
-            .column( 6 )
+
+    dom: 'Bfrtip',
+    scrollY:        "300px",
+    scrollX:        true,
+    scrollCollapse: true,
+    buttons: [
+      {
+          extend: 'pdfHtml5',
+          title: 'Sales Report Omset',
+          orientation: 'potrait',
+          pageSize: 'A4',
+          footer: true
+      },
+      {
+        extend: 'excelHtml5',
+        title: 'Sales Report Omset',
+        orientation: 'landscape',
+        pageSize: 'A4',
+        footer: true
+      }
+    ],
+    footerCallback: function (row, data, start, end, display) {
+        var api = this.api();
+
+        // Remove the formatting to get integer data for summation
+        var intVal = function (i) {
+            return typeof i === 'string' ? i.replace(/[\$,]/g, '') * 1 : typeof i === 'number' ? i : 0;
+        };
+
+        // Total over all pages
+        total = api
+            .column(5)
+            .data()
+            .reduce(function (a, b) {
+                return intVal(a) + intVal(b);
+            }, 0);
+
+        // Total over this page
+        pageTotal = api
+            .column(5, { page: 'current' })
+            .data()
+            .reduce(function (a, b) {
+                return intVal(a) + intVal(b);
+            }, 0);
+
+        // Update footer
+        var numFormat = $.fn.dataTable.render.number( '\,', '.', 2, 'Rp.' ).display;
+        $(api.column(5).footer()).html(numFormat(total));
+
+        total = api
+        .column( 6 )
+        .data()
+        .reduce( function (a, b) {
+            return intVal(a) + intVal(b);
+        }, 0 );
+
+        // Total over this page
+        pageTotal = api
+            .column( 6, { page: 'current'} )
             .data()
             .reduce( function (a, b) {
                 return intVal(a) + intVal(b);
             }, 0 );
- 
-            // Total over this page
-            pageTotal = api
-                .column( 6, { page: 'current'} )
-                .data()
-                .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0 );
-    
-            // Update footer
-            var numFormat = $.fn.dataTable.render.number( '\,', '.', 2, 'Rp.' ).display;
-            $( api.column( 6 ).footer() ).html(numFormat(total));
-        },
-		  });
-	});
+
+        // Update footer
+        var numFormat = $.fn.dataTable.render.number( '\,', '.', 2, 'Rp.' ).display;
+        $( api.column( 6 ).footer() ).html(numFormat(total));
+    },
+      });
+});
 </script>

@@ -62,10 +62,9 @@ $results = '';
                 <th>Packing Name</th>
                 <th>Harga Acuan</th>
                 <th>Kurs</th>
-                <th>Harga @</th>
-                <th style="color:red;">Diskon Qty</th>
+                <th>Harga Per Item</th>
+                <th>Diskon Qty</th>
                 <th>Diskon Agen</th>
-                <th>Diskon Tambahan</th>
                 <th>Netto</th>
                 <th>Jumlah (Before Cashback)</th>
                 <th>Cashback</th>
@@ -79,34 +78,32 @@ $results = '';
               <?php foreach ($results as $result):?>
               <tr>
                 <td><?php echo format_date($result['invoiceDate']);?> </td>
-                <td><?php echo remove_junk(ucfirst($result['invoice']));?> </td>
-                <td><?php echo remove_junk(ucfirst($result['customer']));?> </td>
+                <td><?php echo remove_junk(ucfirst($result['invoiceCode']));?> </td>
+                <td><?php echo remove_junk(ucfirst($result['customerName']));?> </td>
                 <td><?php echo remove_junk(ucfirst($result['customerCity']));?> </td>
                 <td><?php echo remove_junk(ucfirst($result['productCode']));?> </td>
                 <td><?php echo remove_junk(ucfirst($result['productName']));?> </td>
-                <td><?php echo decimal_format($result['quantity']);?></td>
+                <td><?php echo decimal_format($result['invoiceQty']);?></td>
                 <td><?php echo number_format($result['packingValue']);?></td>
                 <td><?php echo remove_junk(ucfirst($result['packingName']));?> </td>
-                <td><?php echo formatDollars($result['hargaAcuan']);?></td>
-                <td><?php echo number_format($result['kurs']);?></td>
-                <td><?php echo number_format($result['hargaNett']);?></td>
-                <td style="color:red;"><?php echo number_format($result['diskonQty']);?></td>
-                <td><?php echo number_format(($result['hargaNett'] - $result['diskonQty']) * $result['diskonP']);?></td>
-                <td><?php echo number_format($result['diskonTambahan']);?></td>
-                <td><?php echo number_format($result['hargaNett'] - $result['diskonQty'] - ($result['hargaNett'] - $result['diskonQty']) * $result['diskonP']);?></td>
-                <td><?php echo number_format(($result['hargaNett'] - $result['diskonQty'] - ($result['hargaNett'] - $result['diskonQty']) * $result['diskonP']) * $result['quantity']);?></td>
-                <td style="text-align:center;">-</td>
-                <td><?php echo number_format(($result['hargaNett'] - $result['diskonQty'] - ($result['hargaNett'] - $result['diskonQty']) * $result['diskonP']) * $result['quantity']);?></td>
-                <td style="text-align:center;">-</td>
-                <td><?php echo number_format((($result['hargaNett'] - $result['diskonQty'] - ($result['hargaNett'] - $result['diskonQty']) * $result['diskonP']) * $result['quantity']) - $result['diskonTambahan']);?></td>
-                <td><?php echo remove_junk(ucfirst($result['salesman']));?> </td>
+                <td><?php echo formatDollars($result['productPrice']);?></td>
+                <td><?php echo number_format($result['invoiceKurs']);?></td>
+                <td><?php echo number_format($result['InvoiceItemPriceNett']);?></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><?php echo remove_junk(ucfirst($result['salesman']));?></td>
               </tr>
              <?php endforeach; ?>
             </tbody>
             <tfoot>
               <tr>
                 <th>Total :</th>
-                <th></th>
                 <th></th>
                 <th></th>
                 <th></th>

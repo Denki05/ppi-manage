@@ -82,8 +82,8 @@ $page_title = 'Sale Report';
                 </div>
                 <div class="input-group">
                   <label class="form-label">Invoice type: </label>
-                    <select name="invoice-type2" class="form-control">
-                      <option value="">All</option>
+                    <select id="invoice-type" name="invoice-type2" class="form-control" multipe>
+                      <!-- <option value="0">ALL</option> -->
                       <option value="ppn">PPN</option>
                       <option value="nonppn">NON PPN</option>
                     </select>
@@ -91,7 +91,7 @@ $page_title = 'Sale Report';
             </div>
             <div class="form-group">
                  <button type="submit" name="submit" class="btn btn-primary">Generate Register</button>
-                 <button type="submit" name="submit" class="btn btn-primary" formaction="monthly_sales2.php">Generate Report</button>
+                 <button type="submit" name="submit" class="btn btn-success" formaction="monthly_sales2.php">Generate Report</button>
             </div>
           </form>
       </div>

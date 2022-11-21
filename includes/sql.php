@@ -388,27 +388,21 @@ function  dailySales($year,$month){
 function  monthlySales($month, $year, $invoice_type2){
   global $db;
   $sql = "SELECT 
-      s.invoice_code AS invoice, 
-      s.created_on AS invoiceCreate, 
-      c.customer_store_name AS customer, 
-      e.employee_name AS salesman, 
-      s.invoice_grand_total, 
-      ss.invoice_item_qty AS quantity, 
+      s.invoice_code AS invoiceCode, 
       s.invoice_date AS invoiceDate, 
-      s.invoice_subtotal AS invoiceSubTotal, 
-      s.invoice_disc_amount AS invoiceDiscount,
-      s.invoice_disc_amount2 AS invoiceDiscount2,
-      p.product_name AS productName,
-      p.product_code AS productCode,
-      c.customer_city AS customerCity,
+      c.customer_store_name AS customerName, 
+      c.customer_city AS customerCity, 
+      p.product_name AS productName, 
+      p.product_code AS productCode, 
+      e.employee_name AS salesman, 
+      ss.invoice_item_qty AS invoiceQty, 
       pa.packaging_value AS packingValue,
       pa.packaging_packing AS packingName,
-      p.product_sell_price * s.invoice_exchange_rate AS hargaNett,
-      p.product_sell_price AS hargaAcuan,
-      s.invoice_exchange_rate AS kurs,
-      ss.invoice_item_disc_amount * s.invoice_exchange_rate AS diskonQty,
-      s.invoice_disc_percent /100 AS diskonP,
-      s.invoice_disc_amount2 AS diskonTambahan
+      p.product_sell_price AS productPrice, 
+      s.invoice_exchange_rate AS invoiceKurs, 
+      (s.invoice_exchange_rate*p.product_sell_price) AS InvoiceItemPriceNett, 
+      (ss.invoice_item_disc_amount*s.invoice_exchange_rate) AS invoiceDiscQty
+
 
   FROM tbl_sales_invoice s
   INNER JOIN tbl_sales_invoice_item ss ON s.id = ss.invoice_id
@@ -417,7 +411,7 @@ function  monthlySales($month, $year, $invoice_type2){
   INNER JOIN tbl_customer c ON s.customer_id = c.id
   INNER JOIN tbl_packaging pa ON ss.packaging_id = pa.id
   WHERE MONTH(s.invoice_date)='$month' AND YEAR(s.invoice_date)='$year' AND
-  s.invoice_type = '$invoice_type2'";
+  s.invoice_type = '$invoice_type2' AND s.invoice_code LIKE '2K070'";
   return find_by_sql($sql);
 }
 /*--------------------------------------------------------------*/
@@ -433,7 +427,8 @@ function  monthlySales2($month, $year, $invoice_type2){
       s.invoice_subtotal - s.invoice_disc_amount - s.invoice_disc_amount2 AS invSubTotal,
       s.invoice_grand_total AS invGrandTotal, 
       sum(ss.invoice_item_qty) AS invQty, 
-      e.employee_name AS salesman
+      e.employee_name AS salesman, 
+      s.invoice_type AS invType
 
   FROM tbl_sales_invoice s
   INNER JOIN tbl_sales_invoice_item ss ON s.id = ss.invoice_id
