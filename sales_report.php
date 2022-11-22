@@ -42,61 +42,125 @@ $page_title = 'Sale Report';
   </div>
 </div>
 
-<div class="row">
-  <div class="col-md-6">
-    <div class="panel">
-      <div class="panel-heading">
-        <label class="form-label" style="font-size: 16pt;">Monthly Range</label>
-      </div>
-      <div class="panel-body">
-          <form class="clearfix" method="POST" action="monthly_sales.php">
-            <div class="form-group">
-                <div class="input-group">
-                  <label class="form-label">Month: </label>
-                    <select name="month" class="form-control">
-                      <?php
-                        for($i=0; $i<12; $i++)
-                        {
-                            // $selmonth = date();
-                            $monthtime = mktime(0,0,0,$month + $i);
-                            $monthnum = date('m', $monthtime);
-                            echo '
-                            <option value="'.$monthnum.'"'.
-                            ($monthnum ? ' selected="selected"' : '').
-                            '>'.date('F', $monthtime).'</option>';
-                        }                        
-                      ?>
-                    </select>
-                </div>
-                <div class="input-group">
-                  <label>Year: </label>
-                    <select name="year" class="form-control">
-                      <?php
-                          for($n=date('Y');$n<=2025;$n++){
-                              ?>
-                              <option value="<?php echo $n; ?>"><?php echo $n; ?></option>
-                              <?php
-                          }
-                      ?>
-                    </select>
-                </div>
-                <div class="input-group">
-                  <label class="form-label">Invoice type: </label>
-                    <select id="invoice-type" name="invoice-type2" class="form-control" multipe>
-                      <!-- <option value="0">ALL</option> -->
-                      <option value="ppn">PPN</option>
-                      <option value="nonppn">NON PPN</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                 <button type="submit" name="submit" class="btn btn-primary">Generate Register</button>
-                 <button type="submit" name="submit" class="btn btn-success" formaction="monthly_sales2.php">Generate Report</button>
-            </div>
-          </form>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="panel">
+        <div class="panel-heading">
+          <label class="form-label" style="font-size: 16pt;">Monthly Range</label>
+        </div>
+        <div class="panel-body">
+            <form class="clearfix" method="POST" action="monthly_sales.php">
+              <div class="form-group">
+                  <div class="input-group">
+                    <label class="form-label">Month: </label>
+                      <select name="month" class="form-control">
+                        <?php
+                          for($i=0; $i<12; $i++)
+                          {
+                              // $selmonth = date();
+                              $monthtime = mktime(0,0,0,$month + $i);
+                              $monthnum = date('m', $monthtime);
+                              echo '
+                              <option value="'.$monthnum.'"'.
+                              ($monthnum ? ' selected="selected"' : '').
+                              '>'.date('F', $monthtime).'</option>';
+                          }                        
+                        ?>
+                      </select>
+                  </div>
+                  <div class="input-group">
+                    <label>Year: </label>
+                      <select name="year" class="form-control">
+                        <?php
+                            for($n=date('Y');$n<=2025;$n++){
+                                ?>
+                                <option value="<?php echo $n; ?>"><?php echo $n; ?></option>
+                                <?php
+                            }
+                        ?>
+                      </select>
+                  </div>
+                  <!-- <div class="input-group">
+                    <label class="form-label">Invoice type: </label>
+                      <select name="invoice-type2" class="form-control">
+                        <option value="">Select Invoice Type</option>
+                        <option value="ppn">PPN</option>
+                        <option value="nonppn">NON PPN</option>
+                      </select>
+                    
+                  </div> -->
+                  <div class="input-group">
+                    <label class="form-label">Report Type: </label>
+                      <select name="invoice-type3" class="form-control">
+                        <option value="">--Select--</option>
+                        <option value="umum">Umum</option>
+                        <option value="bybrand">By Brand</option>
+                        <option value="bycustomer">By Customer Type</option>
+                      </select>
+                  </div>
+              </div>
+              <div class="form-group">
+                  <button type="submit" name="submit" class="btn btn-primary">Generate Register</button>
+                  <button type="submit2" name="submit2" class="btn btn-success" formaction="monthly_sales2.php">Generate Report</button>
+              </div>
+            </form>
+        </div>
       </div>
     </div>
+    
+    <!-- <div class="col-md-6">
+      <div class="panel">
+        <div class="panel-body">
+            <div class="panel-heading">
+              <label class="form-label" style="font-size: 16pt;">Monthly Range</label>
+            </div>
+            <form class="clearfix" method="POST" action="monthly_sales.php">
+              <div class="form-group">
+                  <div class="input-group">
+                    <label class="form-label">Month: </label>
+                      <select name="month" class="form-control">
+                        <?php
+                          for($i=0; $i<12; $i++)
+                          {
+                              // $selmonth = date();
+                              $monthtime = mktime(0,0,0,$month + $i);
+                              $monthnum = date('m', $monthtime);
+                              echo '
+                              <option value="'.$monthnum.'"'.
+                              ($monthnum ? ' selected="selected"' : '').
+                              '>'.date('F', $monthtime).'</option>';
+                          }                        
+                        ?>
+                      </select>
+                  </div>
+                  <div class="input-group">
+                    <label>Year: </label>
+                      <select name="year" class="form-control">
+                        <?php
+                            for($n=date('Y');$n<=2025;$n++){
+                                ?>
+                                <option value="<?php echo $n; ?>"><?php echo $n; ?></option>
+                                <?php
+                            }
+                        ?>
+                      </select>
+                  </div>
+                  <div class="input-group">
+                    <label class="form-label">Invoice type: </label>
+                      <select id="invoice-type" name="invoice-type2" class="form-control" multipe>
+                        <option value="ppn">PPN</option>
+                        <option value="nonppn">NON PPN</option>
+                      </select>
+                  </div>
+              </div>
+              <div class="form-group">
+                  <button type="submit" name="submit" class="btn btn-primary">Generate Register</button>
+                  <button type="submit" name="submit" class="btn btn-success" formaction="monthly_sales2.php">Generate Report</button>
+              </div>
+            </form>
+        </div>
+      </div>
+    </div> -->
   </div>
-</div>
 
 <?php include_once('layouts/footer.php'); ?>

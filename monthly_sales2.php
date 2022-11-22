@@ -6,17 +6,17 @@ $results = '';
    page_require_level(3);
 ?>
 <?php
-  if(isset($_POST['submit'])){
+  if(isset($_POST['submit2'])){
     $req_dates = array('month','year');
-    // $req_type = array('invoice-type2');
-    validate_fields($req_dates);
+    $req_type = array('invoice-type3');
+    validate_fields($req_dates, $req_type);
 
     if(empty($errors)):
       $month              = remove_junk($db->escape($_POST['month']));
       $year               = remove_junk($db->escape($_POST['year']));
-      $invoice_type2      = remove_junk($db->escape($_POST['invoice-type2']));
-      $is_deleted         = remove_junk($db->escape($_POST['invoice-type2']));
-      $results            = monthlySales2($month,$year,$invoice_type2);
+      $invoice_type3      = remove_junk($db->escape($_POST['invoice-type3']));
+      $results            = monthlySales2($month,$year);
+      $results2           = monthlySales3($month, $year);
       // $result_explode     =
     else:
       $session->msg("d", $errors);
@@ -49,15 +49,17 @@ $results = '';
           </div> -->
         </div>
         <div class="panel-body">
-          <table class="datatable table table-striped table-vcenter table-responsive table-sm display nowrap" style="width:100%">
+          <?php if($_POST['invoice-type3'] === 'umum'): ?>
+            <table class="datatable table table-striped table-vcenter table-responsive table-sm display nowrap" style="width:100%">
             <thead>
               <tr>
                 <th>Date</th>
                 <th>Invoice</th>
                 <th>Qty</th>
                 <th>Customer</th>
+                <th>Kurs</th>
                 <th>Shipping Cost</th>
-                <th>Sub Total</th>
+                <th>Purchase Total</th>
                 <th>Grand Total</th>
                 <th>Salesman</th>
               </tr>
@@ -69,6 +71,7 @@ $results = '';
                 <td><?php echo remove_junk(ucfirst($result['invCode']));?> </td>
                 <td><?php echo decimal_format($result['invQty']);?></td>
                 <td><?php echo remove_junk(ucfirst($result['custName']));?> </td>
+                <td><?php echo number_format($result['invoiceKurs']);?> </td>
                 <td><?php echo number_format($result['invShipCost']);?></td>
                 <td><?php echo number_format($result['invSubTotal']);?></td>
                 <td><?php echo number_format($result['invGrandTotal']);?></td>
@@ -86,9 +89,56 @@ $results = '';
                 <th></th>
                 <th></th>
                 <th></th>
+                <th></th>
               </tr>
             </tfoot>
           </tabel>
+
+          <?php elseif($_POST['invoice-type3'] === 'bybrand'): ?>
+            <table class="bybrand table table-striped table-vcenter table-responsive table-sm display nowrap" style="width:100%">
+            <thead>
+              <tr>
+                <th>Invoice Brand</th>
+                <th>Invoice</th>
+                <th>Date</th>
+                <th>Qty</th>
+                <th>Customer</th>
+                <th>Kurs</th>
+                <th>Shipping Cost</th>
+                <th>Purchase Total</th>
+                <th>Grand Total</th>
+                <th>Salesman</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach ($results as $result):?>
+              <tr>
+                <td><?php echo remove_junk(ucfirst($result['productBrand'])); ?> </td>
+                <td><?php echo remove_junk(ucfirst($result['invCode']));?> </td>
+                <td><?php echo format_date($result['invDate']);?> </td>
+                <td><?php echo decimal_format($result['invQty']);?></td>
+                <td><?php echo remove_junk(ucfirst($result['custName']));?> </td>
+                <td><?php echo number_format($result['invoiceKurs']);?> </td>
+                <td><?php echo number_format($result['invShipCost']);?></td>
+                <td><?php echo number_format($result['invSubTotal']);?></td>
+                <td><?php echo number_format($result['invGrandTotal']);?></td>
+                <td><?php echo remove_junk(ucfirst($result['salesman']));?> </td>
+              </tr>
+             <?php endforeach; ?>
+            </tbody>
+            <tfoot>
+            </tfoot>
+          </tabel>
+
+          <?php elseif($_POST['invoice-type3'] === 'bycustomer'): ?>
+            <table>
+              <thead>
+                <tr>
+                  <th>BY Customer</th>
+                </tr>
+              </thead>
+            </table>
+          <?php endif; ?>
         </div>
       </div>
     </div>
@@ -130,7 +180,7 @@ $results = '';
 
         // Total over all pages
         total = api
-            .column(5)
+            .column(6)
             .data()
             .reduce(function (a, b) {
                 return intVal(a) + intVal(b);
@@ -138,7 +188,7 @@ $results = '';
 
         // Total over this page
         pageTotal = api
-            .column(5, { page: 'current' })
+            .column(6, { page: 'current' })
             .data()
             .reduce(function (a, b) {
                 return intVal(a) + intVal(b);
@@ -146,10 +196,10 @@ $results = '';
 
         // Update footer
         var numFormat = $.fn.dataTable.render.number( '\,', '.', 2, 'Rp.' ).display;
-        $(api.column(5).footer()).html(numFormat(total));
+        $(api.column( 6 ).footer()).html(numFormat(total));
 
         total = api
-        .column( 6 )
+        .column( 7 )
         .data()
         .reduce( function (a, b) {
             return intVal(a) + intVal(b);
@@ -157,7 +207,7 @@ $results = '';
 
         // Total over this page
         pageTotal = api
-            .column( 6, { page: 'current'} )
+            .column( 7, { page: 'current'} )
             .data()
             .reduce( function (a, b) {
                 return intVal(a) + intVal(b);
@@ -165,8 +215,38 @@ $results = '';
 
         // Update footer
         var numFormat = $.fn.dataTable.render.number( '\,', '.', 2, 'Rp.' ).display;
-        $( api.column( 6 ).footer() ).html(numFormat(total));
+        $( api.column( 7 ).footer() ).html(numFormat(total));
     },
+      });
+});
+</script>
+
+<script type="text/javascript">
+	$(document).ready( function () {
+    $('.bybrand').DataTable( {
+
+
+    dom: 'Bfrtip',
+    scrollY:        "300px",
+    scrollX:        true,
+    scrollCollapse: true,
+    buttons: [
+      {
+          extend: 'pdfHtml5',
+          title: 'Sales Report Omset',
+          orientation: 'potrait',
+          pageSize: 'A4',
+          footer: true
+      },
+      {
+        extend: 'excelHtml5',
+        title: 'Sales Report Omset',
+        orientation: 'landscape',
+        pageSize: 'A4',
+        footer: true
+      }
+    ],
+    
       });
 });
 </script>

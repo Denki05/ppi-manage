@@ -411,13 +411,13 @@ function  monthlySales($month, $year, $invoice_type2){
   INNER JOIN tbl_customer c ON s.customer_id = c.id
   INNER JOIN tbl_packaging pa ON ss.packaging_id = pa.id
   WHERE MONTH(s.invoice_date)='$month' AND YEAR(s.invoice_date)='$year' AND
-  s.invoice_type = '$invoice_type2' AND s.invoice_code LIKE '2K070'";
+  s.invoice_type = '$invoice_type2'";
   return find_by_sql($sql);
 }
 /*--------------------------------------------------------------*/
 /* Function for Generate Monthly sales report
 /*--------------------------------------------------------------*/
-function  monthlySales2($month, $year, $invoice_type2){
+function  monthlySales2($month, $year){
   global $db;
   $sql = "SELECT 
       s.invoice_date AS invDate, 
@@ -428,7 +428,15 @@ function  monthlySales2($month, $year, $invoice_type2){
       s.invoice_grand_total AS invGrandTotal, 
       sum(ss.invoice_item_qty) AS invQty, 
       e.employee_name AS salesman, 
-      s.invoice_type AS invType
+      s.invoice_type AS invType,
+      s.invoice_exchange_rate AS invoiceKurs, 
+      CASE
+        WHEN b.brand_name LIKE 'Senses' THEN 'Senses'
+        WHEN b.brand_name LIKE 'GCF' THEN 'GCF'
+        WHEN b.brand_name LIKE 'PPI' AND cc.category_name = 'FF - Fine Fragrance' THEN 'PPI-FF'
+        WHEN b.brand_name LIKE 'PPI' AND cc.category_name <> 'FF - Fine Fragrance' THEN 'PPI-NON FF'
+      END AS productBrand, 
+      p.product_name AS productName
 
   FROM tbl_sales_invoice s
   INNER JOIN tbl_sales_invoice_item ss ON s.id = ss.invoice_id
@@ -436,9 +444,47 @@ function  monthlySales2($month, $year, $invoice_type2){
   INNER JOIN tbl_employee e ON s.salesman_id = e.id
   INNER JOIN tbl_customer c ON s.customer_id = c.id
   INNER JOIN tbl_packaging pa ON ss.packaging_id = pa.id
-  WHERE MONTH(s.invoice_date)='$month' AND YEAR(s.invoice_date)='$year' AND
-  s.invoice_type = '$invoice_type2'
-  GROUP BY s.invoice_code";
+  INNER JOIN tbl_brand b ON p.brand_id = b.id
+  INNER JOIN tbl_category cc ON b.id = cc.brand_id
+  WHERE MONTH(s.invoice_date)='$month' AND YEAR(s.invoice_date)='$year'
+  GROUP BY s.invoice_code
+  ORDER BY s.invoice_code";
+  return find_by_sql($sql);
+}
+
+
+// monthly report by brand invoice
+function  monthlySales3($month, $year){
+  global $db;
+  $sql = "SELECT 
+      s.invoice_date AS invDate, 
+      s.invoice_code AS invCode, 
+      c.customer_store_name AS custName, 
+      s.invoice_shipping_cost AS invShipCost, 
+      s.invoice_subtotal - s.invoice_disc_amount - s.invoice_disc_amount2 AS invSubTotal,
+      s.invoice_grand_total AS invGrandTotal, 
+      sum(ss.invoice_item_qty) AS invQty, 
+      e.employee_name AS salesman, 
+      s.invoice_type AS invType,
+      s.invoice_exchange_rate AS invoiceKurs, 
+      CASE
+        WHEN b.brand_name LIKE 'Senses' THEN 'Senses'
+        WHEN b.brand_name LIKE 'GCF' THEN 'GCF'
+        WHEN b.brand_name LIKE 'PPI' AND cc.category_name = 'FF - Fine Fragrance' THEN 'PPI-FF'
+        WHEN b.brand_name LIKE 'PPI' AND cc.category_name <> 'FF - Fine Fragrance' THEN 'PPI-NON FF'
+      END AS productBrand, 
+      p.product_name AS productName
+
+  FROM tbl_sales_invoice s
+  INNER JOIN tbl_sales_invoice_item ss ON s.id = ss.invoice_id
+  INNER JOIN tbl_product p ON ss.product_id = p.id
+  INNER JOIN tbl_employee e ON s.salesman_id = e.id
+  INNER JOIN tbl_customer c ON s.customer_id = c.id
+  INNER JOIN tbl_packaging pa ON ss.packaging_id = pa.id
+  INNER JOIN tbl_brand b ON p.brand_id = b.id
+  INNER JOIN tbl_category cc ON b.id = cc.brand_id
+  WHERE MONTH(s.invoice_date)='$month' AND YEAR(s.invoice_date)='$year'
+  GROUP BY productBrand ASC";
   return find_by_sql($sql);
 }
 /*--------------------------------------------------------------*/
